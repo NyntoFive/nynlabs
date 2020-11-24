@@ -1,9 +1,10 @@
 # nynlabs
 Personal site project
 
-- [ ] Initial setup / Deployment structure
-- [ ] Product catalog 
+- [x] Initial setup / Deployment structure
+- [ ] Product catalog
+- [ ] 
 - [ ] Portfolio page
-
 - [ ] Task Ninja app
+- [ ] Spider app
 

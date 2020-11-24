@@ -1,0 +1,18 @@
+# Querysets and Managers
+
+## A Manager is a class responsible for building queries against a model. Defaults to 'objects'
+
+- All the standard methods of a Manager return querysets.
+
+### A queryset is a collection of models loaded from the database.
+- Querysets are constructed and populated by Manager instances.
+- Queryset methods can be used to further filter the models.
+
+### Data Migrations
+
+- 3-Steps:
+- 1. Schema migration to add destination field.
+- 2. Data migration to cast and save data to new field.
+- 3. Schema migration to remove original field.
+  
+  ./manage.py dumpdata --indent 2 main.ProductTag

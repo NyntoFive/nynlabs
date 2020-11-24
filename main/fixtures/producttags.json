@@ -1,0 +1,56 @@
+[
+{
+  "model": "main.producttag",
+  "fields": {
+    "name": "Tagged Item",
+    "slug": "tagged-item",
+    "description": "hi",
+    "active": true
+  }
+},
+{
+  "model": "main.producttag",
+  "fields": {
+    "name": "November",
+    "slug": "november",
+    "description": "turkey tag!",
+    "active": true
+  }
+},
+{
+  "model": "main.producttag",
+  "fields": {
+    "name": "Choas",
+    "slug": "choas",
+    "description": "Chaotic Tag",
+    "active": true
+  }
+},
+{
+  "model": "main.producttag",
+  "fields": {
+    "name": "Special",
+    "slug": "special",
+    "description": "Super special tag",
+    "active": true
+  }
+},
+{
+  "model": "main.producttag",
+  "fields": {
+    "name": "Black Friday",
+    "slug": "black-friday",
+    "description": "DEALS!",
+    "active": true
+  }
+},
+{
+  "model": "main.producttag",
+  "fields": {
+    "name": "Purple",
+    "slug": "purple",
+    "description": "Tags that eat people.",
+    "active": true
+  }
+}
+]
