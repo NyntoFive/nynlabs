@@ -1,9 +1,10 @@
+import logging
 from django import forms
 from django.core.mail import send_mail
 
 logger = logging.getLogger(__name__)
 
-class ContactForm(forms.Forms):
+class ContactForm(forms.Form):
     name = forms.CharField(label="Your name", max_length=100)
     message = forms.CharField(max_length=600, widget=forms.Textarea)
 
