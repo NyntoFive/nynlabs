@@ -1,0 +1,7 @@
+# Run all the views tests
+./manage.py test main.test.test_views.TestPage
+# Discover all the (new) tests
+./manage.py test -v 2
+
+# Run all the things!
+./manage.py test
