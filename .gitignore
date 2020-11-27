@@ -2,3 +2,7 @@ __pycach__/
 *.pyc
 db.sqlite3
 
+static/scss/
+static/src/
+static/License.pdf
+static/

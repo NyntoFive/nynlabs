@@ -1,0 +1,83 @@
+{% extends 'my_base.html' %}
+{% block title %} Product Detail {% endblock %}
+
+{% block table %}
+<div class="container">
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            
+            <td>{% for image in object.productimage_set.all %}
+                <img src="{{ image.thumbnail.url }}" alt="cover" />
+                {% endfor %}
+            </td>
+        </tr>
+        
+        <tr>
+            <th>Description</th>
+            <td>{{ object.description|linebreaks }}</td>
+        </tr>
+        <tr>
+            <th>Tags</th>
+            <td>{{ object.tags.all|join:","|default:"No tags available" }}</td>
+        </tr>
+        <tr>
+            <th>In stock</th>
+            <td>{{ object.in_stock|yesno|capfirst }}</td>
+        </tr>
+        <tr>
+            <th>Updated</th>
+            <td>{{ object.date_updated|date:"F Y" }}</td>
+        </tr>
+    </table>
+</div>
+    {% endblock %}
+
+    {% block content %}
+                    
+                {% for image in object.productimage_set.all %}
+                    <img src="{{ image.thumbnail.url }}" alt="cover" class="img-fluid mx-auto" />
+                {% endfor %}           
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
+            
+            </a>
+            
+            <div class="bg-image hover-overlay ripple" data-ripple-color="light">
+            
+            </div>
+            
+            <div class="card-body">
+                    <h5 class="card-title">{{ object.name }}</h5>
+                    <p class="card-text">
+                        {{ object.description|linebreaks}}
+                    </p>
+                    <a href="{{object.url}}" class="btn btn-primary">Button</a>
+
+                    <div class="card card-footer">
+                        <p>Tags:</p>{{ object.tags.all|join:","|default:"No tags available" }}
+                        <p>{{ object.in_stock|yesno|capfirst }}</p>
+                        <span class="right">
+                            {{ object.date_updated|date:"F Y" }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="container">
+                <div class="bs-example">
+                    <div class="card" style="width: 300px;">
+                        <img src="/examples/images/sample.svg" class="card-img-top" alt="...">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Alice Liddel</h5>
+                            <p class="card-text">Alice is a freelance web designer and developer based in London. She is specialized in HTML5, CSS3, JavaScript, Bootstrap, etc.</p>
+                            <a href="#" class="btn btn-primary stretched-link">View Profile</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+{% comment %}<a href="{% url "add_to_basket" %}?product_id={{ object.id }}">Add to Cart</a>
+<a href="#">Add to Cart</a>
+{% endcomment %}
+
+{% endblock content %}
