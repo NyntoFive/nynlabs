@@ -6,3 +6,5 @@ static/scss/
 static/src/
 static/License.pdf
 static/
+venv/
+.vscode/

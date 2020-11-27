@@ -35,10 +35,10 @@ class Command(BaseCommand):
                     os.path.join(options["image_basedir"],
                     row["image_filename"],
                 ), "rb") as f:
-                image = models.ProductImage(product=product, image=ImageFile(f, name=row['image_filename']),)
-                image.save()
+                    image = models.ProductImage(product=product, image=ImageFile(f, name=row['image_filename']),)
+                    image.save()
                 c['images'] += 1
-
+                
             product.save()
             c["products"] += 1
             if created:
