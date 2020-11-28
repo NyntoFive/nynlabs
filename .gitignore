@@ -8,3 +8,5 @@ static/License.pdf
 static/
 venv/
 .vscode/
+._archive/
+deploy/

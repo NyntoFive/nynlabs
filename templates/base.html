@@ -5,6 +5,8 @@
     <title>{% block title %}Title Blockkkk{% endblock %}</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
+    <meta name="author" content="Mike King">
+    <meta name="keywords" content="developer, portfolio, python, web development">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {% block page_meta %} {% endblock %}
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
@@ -16,7 +18,7 @@
   <body>
     <header>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">BookTime</a>
+        <a class="navbar-brand" href="/">Nynlabs</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -38,11 +40,16 @@
           </ul>
         </div>
       </nav>
-      {% block header %}{% endblock %}
+      {% if request.basket %}
+      <div>
+        {{ request.basket.count }}
+        items in basket
+      </div>
+      {% endif %}
+      
     </header>
-
     {% block content %} {% endblock content %}
-    {% block table %}{% endblock %}
+    
     {% block footer %} {% endblock %}
    
 
@@ -50,6 +57,6 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
-    {% block js %}{% endblock %}
+    {% block js %}{% endblock js %}
 </body>
 </html>
