@@ -5,39 +5,39 @@ from django.contrib import auth
 
 from decimal import Decimal
 from main import models
+from main import forms
+
 
 class TestPage(TestCase):
     def test_home_page_works(self):
-        response = self.client.get('/')
+        response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'main/home.html')
+        self.assertTemplateUsed(response, "main/home.html")
         self.assertContains(response, "Nynlabs.com")
 
     def test_about_page_works(self):
         response = self.client.get("/about/")
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'main/about.html')
+        self.assertTemplateUsed(response, "main/about.html")
         self.assertContains(response, "About")
 
     def test_contact_view_works(self):
-        response = self.client.get(reverse("contact"))
+        response = self.client.get(reverse("contact_us"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'main/contact_form.html')
+        self.assertTemplateUsed(response, "main/contact_form.html")
         self.assertContains(response, "Nynlabs")
-        self.assertIsInstance(
-            response.context["form"], forms.ContactForm
-        )
-    
+        self.assertIsInstance(response.context["form"], forms.ContactForm)
+
     def test_products_page_returns_active(self):
         models.Product.objects.create(
             name="None ever talked about a cathedral and a bazaar.",
             slug="cathedral-bazaar",
-            price=Decimal("10.00")
+            price=Decimal("10.00"),
         )
         models.Product.objects.create(
             name="This is a name for a product",
             slug="product-name-slug",
-            price=Decimal("9.50")
+            price=Decimal("9.50"),
         )
         models.Product.objects.create(
             name="A Tale of Three Children",
@@ -45,33 +45,27 @@ class TestPage(TestCase):
             price=Decimal("19.50"),
             active=False,
         )
-        response = self.client.get(
-            reverse("products", kwargs={"tag": "all"})
-        )
+        response = self.client.get(reverse("products", kwargs={"tag": "all"}))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Nynlabs")
-        
+
         product_list = models.Product.objects.active().order_by("name")
-        self.assertEqual(
-            list(response.context["object_list"]),
-            list(product_list)
-        )
+        self.assertEqual(list(response.context["object_list"]), list(product_list))
+
     def test_products_page_filters_by_tags_and_active(self):
         cb = models.Product.objects.create(
             name="The cathedral and the bazaar",
             slug="cathedral-bazaar",
             price=Decimal("10.00"),
         )
-        
+
         cb.tags.create(name="Open source", slug="opensource")
         models.Product.objects.create(
             name="Microsoft Windows guide",
             slug="microsoft-windows-guide",
             price=Decimal("12.00"),
         )
-        response = self.client.get(
-            reverse("products", kwargs={"tag": "opensource"})
-        )
+        response = self.client.get(reverse("products", kwargs={"tag": "opensource"}))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Nynlabs")
         product_list = (
@@ -79,49 +73,36 @@ class TestPage(TestCase):
             .filter(tags__slug="opensource")
             .order_by("name")
         )
-        
+
         self.assertEqual(
             list(response.context["object_list"]),
-            list(product_list),)
-        
+            list(product_list),
+        )
+
     def test_user_signup_page_loads_correctly(self):
         response = self.client.get(reverse("signup"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "main/signup.html")
         self.assertContains(response, "Nynlabs")
-        self.assertIsInstance(
-            response.context["form"], form.UserCreationForm
-        )
+        self.assertIsInstance(response.context["form"], form.UserCreationForm)
+
     def test_user_signup_page_submission_works(self):
         post_data = {
             "email": "user@domain.com",
             "password1": "abcabcabc",
             "password2": "abcabcabc",
         }
-        with patch.object(
-            form.UserCreationForm, "send_mail") as mock_send:
-                response = self.client.post(
-                    reverse("signup"), post_data
-                )
+        with patch.object(form.UserCreationForm, "send_mail") as mock_send:
+            response = self.client.post(reverse("signup"), post_data)
         self.assertEqual(response.status_code, 302)
-        self.assertTrue(
-            models.User.objects.filter(
-                email="user@domain.com"
-            ).exists()
-        )
-        self.assertTrue(
-            auth.get_user(self.client).is_authenticated
-        )
+        self.assertTrue(models.User.objects.filter(email="user@domain.com").exists())
+        self.assertTrue(auth.get_user(self.client).is_authenticated)
         mock_send.assert_called_once()
-    
-    
+
+
 def test_address_list_page_returns_only_owned(self):
-    user1 = models.User.objects.create_user(
-        "user1", "pw432joij"
-    )
-    user2 = models.User.objects.create_user(
-        "user2", "pw432joij"
-    )
+    user1 = models.User.objects.create_user("user1", "pw432joij")
+    user2 = models.User.objects.create_user("user2", "pw432joij")
     models.Address.objects.create(
         user=user1,
         name="john kimball",
@@ -147,9 +128,8 @@ def test_address_list_page_returns_only_owned(self):
     )
 
     def test_address_create_stores_user(self):
-        user1 = models.User.objects.create_user(
-        "user1", "pw432joij"
-    )
+        user1 = models.User.objects.create_user("user1", "pw432joij")
+
     post_data = {
         "name": "john kercher",
         "address1": "1 av st",
@@ -159,17 +139,11 @@ def test_address_list_page_returns_only_owned(self):
         "country": "uk",
     }
     self.client.force_login(user1)
-    self.client.post(
-    reverse("address_create"), post_data
-    )
-    self.assertTrue(
-        models.Address.objects.filter(user=user1).exists()
-    )
+    self.client.post(reverse("address_create"), post_data)
+    self.assertTrue(models.Address.objects.filter(user=user1).exists())
 
     def test_add_to_basket_loggedin_works(self):
-        user1 = models.User.objects.create_user(
-            "user1@a.com", "pw432joij"
-        )
+        user1 = models.User.objects.create_user("user1@a.com", "pw432joij")
         cb = models.Product.objects.create(
             name="The cathedral and the bazaar",
             slug="cathedral-bazaar",
@@ -181,34 +155,22 @@ def test_address_list_page_returns_only_owned(self):
             price=Decimal("12.00"),
         )
         self.client.force_login(user1)
-        response = self.client.get(
-            reverse("add_to_basket"), {"product_id": cb.id}
-        )
-        response = self.client.get(
-            reverse("add_to_basket"), {"product_id": cb.id}
-        )
-        self.assertTrue(
-            models.Basket.objects.filter(user=user1).exists()
-        )
+        response = self.client.get(reverse("add_to_basket"), {"product_id": cb.id})
+        response = self.client.get(reverse("add_to_basket"), {"product_id": cb.id})
+        self.assertTrue(models.Basket.objects.filter(user=user1).exists())
         self.assertEquals(
-            models.BasketLine.objects.filter(
-            basket__user=user1
-            ).count(),
+            models.BasketLine.objects.filter(basket__user=user1).count(),
             1,
         )
-        response = self.client.get(
-            reverse("add_to_basket"), {"product_id": w.id}
-        )
+        response = self.client.get(reverse("add_to_basket"), {"product_id": w.id})
         self.assertEquals(
-            models.BasketLine.objects.filter(
-                basket__user=user1
-            ).count(),
+            models.BasketLine.objects.filter(basket__user=user1).count(),
             2,
         )
+
+
 def test_add_to_basket_login_merge_works(self):
-    user1 = models.User.objects.create_user(
-        "user1@a.com", "pw432joij"
-    )
+    user1 = models.User.objects.create_user("user1@a.com", "pw432joij")
     cb = models.Product.objects.create(
         name="The cathedral and the bazaar",
         slug="cathedral-bazaar",
@@ -220,21 +182,13 @@ def test_add_to_basket_login_merge_works(self):
         price=Decimal("12.00"),
     )
     basket = models.Basket.objects.create(user=user1)
-    models.BasketLine.objects.create(
-            basket=basket, product=cb, quantity=2
-        )
-    response = self.client.get(
-        reverse("add_to_basket"), {"product_id": w.id}
-    )
+    models.BasketLine.objects.create(basket=basket, product=cb, quantity=2)
+    response = self.client.get(reverse("add_to_basket"), {"product_id": w.id})
     response = self.client.post(
         reverse("login"),
         {"email": "user1@a.com", "password": "pw432joij"},
     )
-    self.assertTrue(
-        auth.get_user(self.client).is_authenticated
-    )
-    self.assertTrue(
-        models.Basket.objects.filter(user=user1).exists()
-    )
+    self.assertTrue(auth.get_user(self.client).is_authenticated)
+    self.assertTrue(models.Basket.objects.filter(user=user1).exists())
     basket = models.Basket.objects.get(user=user1)
-    self.assertEquals(basket.count(),3)
+    self.assertEquals(basket.count(), 3)

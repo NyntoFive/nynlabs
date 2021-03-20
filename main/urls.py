@@ -8,15 +8,15 @@ from main import models
 from main import views
 
 urlpatterns = [
-    path("login/", 
-         auth_views.LoginView.as_view(
-             template_name="main/login.html",
-             form_class=forms.AuthenticationForm,
-            ),
-        name="login",
+    path(
+        "login/",
+        auth_views.LoginView.as_view(
+            template_name="main/login.html",
+            form_class=forms.AuthenticationForm,
         ),
-    path('signup/', views.SignUpView.as_view(), name="signup"),
-
+        name="login",
+    ),
+    path("signup/", views.SignUpView.as_view(), name="signup"),
     path(
         "address/",
         views.AddressListView.as_view(),
@@ -42,22 +42,25 @@ urlpatterns = [
         views.add_to_basket,
         name="add_to_basket",
     ),
-    path('basket/', views.manage_basket, name="basket"),
+    path("basket/", views.manage_basket, name="basket"),
     path(
         "order/done/",
         TemplateView.as_view(template_name="order_done.html"),
         name="checkout_done",
-        ),
+    ),
     path(
         "order/address_select/",
         views.AddressSelectionView.as_view(),
         name="address_select",
-        ),
-
-    path("product/<slug:slug>/", DetailView.as_view(model=models.Product), name="product",),
+    ),
+    path(
+        "product/<slug:slug>/",
+        DetailView.as_view(model=models.Product),
+        name="product",
+    ),
     path("products/<slug:tag>/", views.ProductListView.as_view(), name="products"),
-    path('dev/', TemplateView.as_view(template_name="dev.html")),
-    path("contact/", views.ContactView.as_view(), name="contact"),
-    path('about/', TemplateView.as_view(template_name="main/about.html")),
-    path('', TemplateView.as_view(template_name="main/home.html"), name="home"),
+    path("dev/", TemplateView.as_view(template_name="dev.html")),
+    path("contact-us/", views.ContactView.as_view(), name="contact_us"),
+    path("about-us/", TemplateView.as_view(template_name="main/about.html")),
+    path("", TemplateView.as_view(template_name="main/home.html"), name="home"),
 ]

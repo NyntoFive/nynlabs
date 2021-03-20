@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %}Contact Us{% endblock %}
+
+{% block css %}
+<style>
+body {
+    color: #333;
+    background: #fafafa;
+    font-family: "Patua One", sans-serif;
+}
+.contact-form {
+    padding: 50px;
+    margin: 30px 0;
+}
+.contact-form h1 {
+    color: #19bc9d;
+    font-weight: bold;
+    margin: 0 0 15px;
+}
+.contact-form .form-control, .contact-form .btn {
+    min-height: 38px;
+    border-radius: 2px;
+}
+.contact-form .form-control:focus {
+    border-color: #19bc9d;
+}
+.contact-form .btn-primary, .contact-form .btn-primary:active {
+    color: #fff;
+    min-width: 150px;
+    font-size: 16px;
+    background: #19bc9d !important;
+    border: none;
+}
+.contact-form .btn-primary:hover {
+    background: #15a487 !important; 
+}
+.contact-form .btn i {
+    margin-right: 5px;
+}
+.contact-form label {
+    opacity: 0.7;
+}
+.contact-form textarea {
+    resize: vertical;
+}
+.hint-text {
+    font-size: 15px;
+    padding-bottom: 20px;
+    opacity: 0.6;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-10">
+            <div class="contact-form">
+                <h1>Contact Us</h1>
+                <p class="hint-text">We'd love to hear from you, please drop us a line if you've any query or question.</p>       
+                
+                <form method="post" class="mx-auto p-5 w-75 border">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="inputName">Name</label>
+                                <input type="text" class="form-control" id="inputName" required>
+                            </div>
+                        </div>                
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="inputEmail">Email</label>
+                                <input type="email" class="form-control" id="inputEmail" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="inputPhone">Phone (Optional)</label>
+                                <input type="text" class="form-control" id="inputPhone">
+                            </div>
+                        </div>
+                    </div>            
+                    <div class="form-group">
+                        <label for="inputSubject">Subject</label>
+                        <input type="text" class="form-control" id="inputSubject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputMessage">Message</label>
+                        <textarea class="form-control" id="inputMessage" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
